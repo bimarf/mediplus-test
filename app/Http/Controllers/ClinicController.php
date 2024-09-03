@@ -56,6 +56,13 @@ class ClinicController extends Controller
             'user_id' => Auth::user()->id
         ];
 
+        if (ScheduleBooked::where('schedule_id', $request->schedule_id)->count() == Schedule::find($request->schedule_id)->kuota) {
+            return redirect()->back()->with([
+                'message' => "Schedule is full!",
+                'type' => "warning"
+            ]);
+        }
+
         ScheduleBooked::create($data);
         return redirect('/dashboard')->with([
             'message' => "Successfuly Booked!",
