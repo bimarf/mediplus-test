@@ -4,15 +4,9 @@ import FlashMessage from "@/Components/FlashMessage";
 import { Link, Head, useForm } from "@inertiajs/react";
 
 export default function Index({ auth, flash, clinic }) {
-    const { delete: destroy, put } = useForm();
     return (
         <AuthenticatedLayout auth={auth}>
-            <Head title="Admin Dashboard" />
-            <Link href={route("admin.dashboard.clinic.create")}>
-                <PrimaryButton type="button" className="w-40 mb-8">
-                    Insert New Clinic
-                </PrimaryButton>
-            </Link>
+            <Head title="User Dashboard" />
             {flash?.message && <FlashMessage message={flash.message} />}
             <div className="flex flex-col">
                 <div className="-m-1.5 overflow-x-auto">
@@ -31,19 +25,25 @@ export default function Index({ auth, flash, clinic }) {
                                             scope="col"
                                             className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500"
                                         >
+                                            Image
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500"
+                                        >
                                             Name
                                         </th>
                                         <th
                                             scope="col"
                                             className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500"
                                         >
-                                            Category
+                                            Address
                                         </th>
                                         <th
                                             scope="col"
                                             className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500"
                                         >
-                                            Image
+                                            Category
                                         </th>
                                         <th colSpan={2}>Action</th>
                                     </tr>
@@ -52,8 +52,6 @@ export default function Index({ auth, flash, clinic }) {
                                     {clinic.map((clinic, index) => (
                                         <tr key={clinic.id}>
                                             <td>{index + 1}</td>
-                                            <td>{clinic.name}</td>
-                                            <td>{clinic.category}</td>
                                             <td>
                                                 <img
                                                     src={`/storage/${clinic.image}`}
@@ -61,26 +59,20 @@ export default function Index({ auth, flash, clinic }) {
                                                     height={100}
                                                 />
                                             </td>
+                                            <td>{clinic.name}</td>
+                                            <td>{clinic.address}</td>
+                                            <td>{clinic.category}</td>
                                             <td>
-                                                <div
-                                                    onClick={() => {
-                                                        destroy(
-                                                            route(
-                                                                "admin.dashboard.clinic.destroy",
-                                                                clinic.id
-                                                            )
-                                                        );
-                                                    }}
+                                                <Link
+                                                    href={route(
+                                                        "user.dashboard.booking",
+                                                        clinic.id
+                                                    )}
                                                 >
-                                                    <PrimaryButton
-                                                        type="button"
-                                                        variant="danger"
-                                                    >
-                                                        {clinic.deleted_at
-                                                            ? "Restore"
-                                                            : "Delete"}
+                                                    <PrimaryButton type="button">
+                                                        Booking
                                                     </PrimaryButton>
-                                                </div>
+                                                </Link>
                                             </td>
                                         </tr>
                                     ))}

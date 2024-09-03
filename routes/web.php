@@ -30,6 +30,13 @@ Route::middleware('auth', 'role:admin')->prefix('dashboard')->name('admin.dashbo
     Route::resource('clinic', App\Http\Controllers\Admin\ClinicController::class);
 });
 
+Route::middleware('auth', 'role:user')->prefix('dashboard')->name('user.dashboard.')->group(function () {
+    Route::get('/', [App\Http\Controllers\ClinicController::class, 'index'])->name('index');
+
+    Route::get('/booking/{id}', [App\Http\Controllers\ClinicController::class, 'booking'])->name('booking');
+    Route::post('/store', [App\Http\Controllers\ClinicController::class, 'storeBooking'])->name('store');
+});
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

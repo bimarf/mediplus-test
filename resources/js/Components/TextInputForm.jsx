@@ -1,5 +1,6 @@
 import React, { forwardRef, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
+import Edit from "@/Pages/Profile/Edit";
 
 TextInput.propTypes = {
     type: PropTypes.oneOf([
@@ -8,6 +9,7 @@ TextInput.propTypes = {
         "password",
         "number",
         "file",
+        "hidden",
     ]),
     name: PropTypes.string,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -20,6 +22,7 @@ TextInput.propTypes = {
     handleChange: PropTypes.func,
     placeholder: PropTypes.string,
     isError: PropTypes.bool,
+    readOnly: PropTypes.bool,
 };
 
 export default function TextInput({
@@ -35,6 +38,7 @@ export default function TextInput({
     handleChange,
     placeholder,
     isError,
+    readOnly,
 }) {
     const input = useRef();
 
@@ -60,6 +64,7 @@ export default function TextInput({
                 required={required}
                 onChange={(e) => handleChange(e)}
                 placeholder={placeholder}
+                readOnly={readOnly}
             />
         </div>
     );
