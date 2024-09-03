@@ -24,18 +24,11 @@ Route::get('admin', function(){
     return 'Hi Admin';
 })->middleware('role:admin');
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+Route::redirect('/', '/login');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware('auth', 'role:admin')->prefix('dashboard')->name('admin.dashboard.')->group(function () {
+    Route::resource('clinic', App\Http\Controllers\Admin\ClinicController::class);
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
