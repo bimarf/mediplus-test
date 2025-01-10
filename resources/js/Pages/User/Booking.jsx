@@ -6,6 +6,7 @@ import FlashMessage from "@/Components/FlashMessage";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { Head, useForm } from "@inertiajs/react";
 import { Input } from "postcss";
+import { Box } from "@mui/material";
 
 export default function Booking({ auth, clinic, schedule, flash }) {
     const { setData, post, processing, errors } = useForm({
